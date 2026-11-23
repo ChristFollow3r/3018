@@ -8,7 +8,7 @@ public class CameraController : MonoBehaviour
     [SerializeField] private Transform lookAt;
     [SerializeField] private Transform player;
 
-    [Header("Mouse Settings")] 
+    [Header("Mouse Settings")]
     [SerializeField] private float mouseSensitivity = .1f;
     [SerializeField] private float maxPitch = 60f;
     [SerializeField] private float minPitch = -20f;
@@ -16,7 +16,8 @@ public class CameraController : MonoBehaviour
 
     private float yaw;
     private float pitch = 15f;
-    
+    private Vector3 velocity;
+
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked; // Locks the cursor to the center of the screen
@@ -24,7 +25,7 @@ public class CameraController : MonoBehaviour
 
         yaw = transform.eulerAngles.y;
     }
-    
+
     void LateUpdate()
     {
         CameraMovement();
@@ -39,7 +40,10 @@ public class CameraController : MonoBehaviour
         pitch = Mathf.Clamp(pitch, minPitch, maxPitch);
 
         Quaternion rotation = Quaternion.Euler(pitch, yaw, 0);
-        transform.position = lookAt.position + rotation * new Vector3(0f, 0f, -distance);
+        Vector3 targetPosition = lookAt.position + rotation * new Vector3(0, 0, -distance);
+
+        transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, 0.1f);
         transform.rotation = rotation;
+
     }
 }

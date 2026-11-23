@@ -68,5 +68,61 @@
         "*.slnx": "*.csproj"
     },
     "dotnet.defaultSolution": "3018.slnx",
-    "dotnet.enableWorkspaceBasedDevelopment": false
+    "dotnet.enableWorkspaceBasedDevelopment": false,
+    "editor.semanticHighlighting.enabled": true,
+    "editor.tokenColorCustomizations": {
+        "textMateRules": [
+            {
+                "scope": [
+                    "keyword",
+                    "keyword.control",
+                    "keyword.control.csharp",
+                    "keyword.operator",
+                    "storage.modifier",
+                    "storage.modifier.csharp"
+                ],
+                "settings": {
+                    "foreground": "#C586C0"
+                }
+            },
+            {
+                "scope": [
+                    "storage.type",
+                    "storage.type.csharp",
+                    "support.type",
+                    "support.type.builtin"
+                ],
+                "settings": {
+                    "foreground": "#569CD6"
+                }
+            },
+            {
+                "scope": [
+                    "constant.language",
+                    "constant.language.boolean",
+                    "constant.language.csharp"
+                ],
+                "settings": {
+                    "foreground": "#569CD6"
+                }
+            }
+        ]
+    },
+    "editor.semanticTokenColorCustomizations": {
+        "rules": {
+            "keyword": "#C586C0",
+            "modifier": "#C586C0",
+            "type": "#569CD6"
+        }
+    },
+    "[csharp]": {
+        "editor.quickSuggestions": {
+            "other": "off",
+            "comments": "off",
+            "strings": "off"
+        },
+        "editor.suggestOnTriggerCharacters": false,
+        "editor.inlineSuggest.enabled": false,
+        "editor.parameterHints.enabled": false
+    }
 }

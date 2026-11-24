@@ -3,26 +3,17 @@ using UnityEngine;
 public class DebrisBehaviour : MonoBehaviour
 {
     private Rigidbody rb;
-    Vector3 randomDirection;
-    float randomSpeed;
+    float minSpeed;
+    float maxSpeed;
     void Awake()
     {
         rb = GetComponent<Rigidbody>(); 
     }
     void Start()
     {
-        randomDirection = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f));
-        randomSpeed = randomSpeed = Random.Range(1f, 10f);
+        rb.linearVelocity = Random.onUnitSphere * Random.Range(minSpeed, maxSpeed);
     }
 
-    void FixedUpdate()
-    {
-        DebrisMovement();
-    }
 
-    void DebrisMovement()
-    {
-
-        rb.linearVelocity = randomDirection * randomSpeed;
-    }
 }
+

@@ -1,4 +1,3 @@
-using UnityEditor.PackageManager;
 using UnityEngine;
 
 public class BodyBehaviour : MonoBehaviour
@@ -13,20 +12,25 @@ public class BodyBehaviour : MonoBehaviour
 
     void Gravity()
     {
-        Collider[] hits = Physics.OverlapSphere(transform.position, body.gravityRadius * transform.localScale.magnitude); // TODO: Change localscale
+        float gravityRange = body.gravityRadius * Mathf.Abs(transform.lossyScale.x); // Make the range change based on the object scale
+        Collider[] hits = Physics.OverlapSphere(transform.position, gravityRange);
 
         foreach (Collider hit in hits)
         {
-            if (!hit.CompareTag("Player") && !hit.CompareTag("Debris")) continue;
             Rigidbody rb = hit.attachedRigidbody;
 
             if (rb == null) continue;
+            if (!rb.CompareTag("Player") && !rb.CompareTag("Debris")) continue;
+
             Vector3 direction = transform.position - rb.worldCenterOfMass;
-            if (direction.sqrMagnitude > 0f)
-            {
-                rb.AddForce(direction.normalized * body.gravityForce, ForceMode.Acceleration);
-                Debug.Log(direction);
-            }
+            float distance = direction.magnitude;
+
+            if (distance <= 0f || distance >= gravityRange) continue; // Sop applying gravity if its out of the range or if its already touching the body
+
+            float falloff = 1f - distance / gravityRange;
+            float currentForce = body.gravityForce * falloff;
+            rb.AddForce(direction.normalized * currentForce, ForceMode.Acceleration);
+            Debug.Log(direction);
 
         }
     }

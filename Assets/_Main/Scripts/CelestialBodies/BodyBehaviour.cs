@@ -13,7 +13,7 @@ public class BodyBehaviour : MonoBehaviour
 
     void Gravity()
     {
-        Collider[] hits = Physics.OverlapSphere(transform.position, body.gravityRadius * transform.localScale.x); // TODO: Change localscale
+        Collider[] hits = Physics.OverlapSphere(transform.position, body.gravityRadius * transform.localScale.magnitude); // TODO: Change localscale
 
         foreach (Collider hit in hits)
         {
@@ -21,7 +21,6 @@ public class BodyBehaviour : MonoBehaviour
             Rigidbody rb = hit.attachedRigidbody;
 
             if (rb == null) continue;
-
             Vector3 direction = transform.position - rb.worldCenterOfMass;
             if (direction.sqrMagnitude > 0f)
             {

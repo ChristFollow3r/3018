@@ -13,11 +13,11 @@ public class BodyBehaviour : MonoBehaviour
 
     void Gravity()
     {
-        Collider[] hits = Physics.OverlapSphere(transform.position, body.gravityRadius);
+        Collider[] hits = Physics.OverlapSphere(transform.position, body.gravityRadius * transform.localScale.x); // TODO: Change localscale
 
         foreach (Collider hit in hits)
         {
-            if (!hit.CompareTag("player") && !hit.CompareTag("debris")) continue;
+            if (!hit.CompareTag("Player") && !hit.CompareTag("Debris")) continue;
             Rigidbody rb = hit.attachedRigidbody;
 
             if (rb == null) continue;
@@ -26,6 +26,7 @@ public class BodyBehaviour : MonoBehaviour
             if (direction.sqrMagnitude > 0f)
             {
                 rb.AddForce(direction.normalized * body.gravityForce, ForceMode.Acceleration);
+                Debug.Log(direction);
             }
 
         }

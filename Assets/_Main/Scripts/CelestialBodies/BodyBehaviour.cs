@@ -6,10 +6,9 @@ public class BodyBehaviour : MonoBehaviour
 
     [SerializeField] private CelestialBody body;
 
-    // Update is called once per frame
-    void LateUpdate()
+    void FixedUpdate()
     {
-
+        Gravity();
     }
 
     void Gravity()
@@ -18,7 +17,18 @@ public class BodyBehaviour : MonoBehaviour
 
         foreach (Collider hit in hits)
         {
-            if (!hit.CompareTag("player") || !hit.CompareTag("debris")) return;
+            if (!hit.CompareTag("player") && !hit.CompareTag("debris")) continue;
+            Rigidbody rb = hit.attachedRigidbody;
+
+            if (rb == null) continue;
+
+            Vector3 direction = transform.position - rb.worldCenterOfMass;
+            if (direction.sqrMagnitude > 0f)
+            {
+                rb.AddForce(direction.normalized * body.gravityForce, ForceMode.Acceleration);
+            }
+
         }
     }
+
 }

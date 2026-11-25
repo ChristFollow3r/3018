@@ -4,6 +4,8 @@ public class BodyBehaviour : MonoBehaviour
 {
 
     [SerializeField] private CelestialBody body;
+    public event System.Action<GameObject> onPlayerIntercepted;
+    public event System.Action onBodyLeft; // TODO: Use this for when the player leaves any celestial body
 
     void FixedUpdate()
     {
@@ -21,11 +23,12 @@ public class BodyBehaviour : MonoBehaviour
 
             if (rb == null) continue;
             if (!rb.CompareTag("Player") && !rb.CompareTag("Debris")) continue;
+            if (rb.CompareTag("Player")) onPlayerIntercepted?.Invoke(this.gameObject); 
 
             Vector3 direction = transform.position - rb.worldCenterOfMass;
             float distance = direction.magnitude;
 
-            if (distance <= 0f || distance >= gravityRange) continue; // Sop applying gravity if its out of the range or if its already touching the body
+            if (distance <= 0f || distance >= gravityRange) continue;
 
             float falloff = 1f - distance / gravityRange;
             float currentForce = body.gravityForce * falloff;
@@ -34,5 +37,6 @@ public class BodyBehaviour : MonoBehaviour
 
         }
     }
+
 
 }

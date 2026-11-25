@@ -11,6 +11,7 @@ public class DebrisBehaviour : MonoBehaviour
     }
     void Start()
     {
+        rb.useGravity = false;
         rb.linearVelocity = Random.onUnitSphere * Random.Range(minSpeed, maxSpeed);
     }
 
